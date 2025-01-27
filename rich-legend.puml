@@ -1,0 +1,47 @@
+@startuml
+!$legend_content = ""
+!$legend_unique_counter = 0
+
+!procedure $lgadd($arg)
+  !$legend_content = $legend_content + "\n" + $arg
+!endprocedure
+
+!procedure $lgarrow($label, $arrowtype="->", $leftid="", $rightid="")
+  !$id1 = $leftid
+  !if $id1 == ""
+    !$id1 = "lgarrow_" + $legend_unique_counter
+    !$legend_unique_counter = $legend_unique_counter + 1
+  !endif
+  !$id2 = $rightid
+  !if $id2 == ""
+    !$id2 = "lgarrow_" + $legend_unique_counter
+    !$legend_unique_counter = $legend_unique_counter + 1
+  !endif
+  !$legend_unique_counter = $legend_unique_counter + 1
+  !$legend_content = $legend_content + '\nlabel " " as ' + $id1 + '\nlabel " " as ' + $id2
+  !$legend_content = $legend_content + '\n' + $id1 + $arrowtype + $id2 + ': ' + $label
+!endprocedure
+
+!unquoted procedure $lghorz($a, $b)
+  !$legend_content = $legend_content + "\n" + $a + " -r[hidden]- " + $b
+!endprocedure
+
+!unquoted procedure $lgvert($a, $b)
+  !$legend_content = $legend_content + "\n" + $a + " -d[hidden]- " + $b
+!endprocedure
+
+!procedure $lgdone($title="Legend", $alignment="")
+legend $alignment
+  !if $title != ""
+    <U+00A0>   **$title**
+    ----
+  !endif
+  {{
+    skinparam backgroundcolor transparent
+    scale 0.75
+    skinparam nodesep 6
+    skinparam ranksep 6
+    agent "{{\nskinparam backgroundcolor transparent\n$legend_content\n}}" as a #transparent;line:transparent
+  }}
+endlegend
+!endprocedure
